@@ -5,3 +5,11 @@ lightgbm
 catboost
 matplotlib
 openpyxl
+streamlit
+pandas
+scikit-learn
+lightgbm
+catboost
+matplotlib
+openpyxl
+
