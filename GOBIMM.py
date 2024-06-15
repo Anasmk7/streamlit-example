@@ -1,8 +1,8 @@
 import streamlit as st
 import pandas as pd
-from sklearn.linear_model import LinearRegression
 from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
 from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
 import lightgbm as lgb
 import matplotlib.pyplot as plt
 
@@ -33,12 +33,12 @@ X_train, X_test, y_train_min, y_test_min, y_train_max, y_test_max = train_test_s
     features, target_min, target_max, test_size=0.2, random_state=42
 )
 
-# Initialiser les modèles
+# Modèles à tester
 models = {
-    'Linear Regression': LinearRegression(),
-    'Random Forest': RandomForestRegressor(n_estimators=200, max_depth=None, min_samples_split=2, min_samples_leaf=1, random_state=42),
-    'Gradient Boosting': GradientBoostingRegressor(random_state=42),
-    'LightGBM': lgb.LGBMRegressor(objective='regression', num_leaves=31, learning_rate=0.05, n_estimators=100)
+    'RandomForest': RandomForestRegressor(n_estimators=200, max_depth=None, min_samples_split=2, min_samples_leaf=1, random_state=42),
+    'GradientBoosting': GradientBoostingRegressor(random_state=42),
+    'LightGBM': lgb.LGBMRegressor(objective='regression', num_leaves=31, learning_rate=0.05, n_estimators=100),
+    'LinearRegression': LinearRegression()
 }
 
 # Entraîner les modèles pour les cibles minimales
@@ -46,29 +46,7 @@ for model in models.values():
     model.fit(X_train, y_train_min)
 
 # Interface Streamlit
-st.markdown(
-    """
-    <style>
-    .main {
-        background-image: url("https://github.com/Anasmk7/streamlit-example/blob/master/Le%20groupe%20Veolia.jpg?raw=true");
-        background-size: cover;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
-
-st.title("Prédiction des Coûts de Construction")
-st.markdown("### Veolia et Redal")
-
-# Ajouter les logos
-col1, col2 = st.columns([1, 1])
-with col1:
-    st.image("veolia_logo.png", width=150)
-with col2:
-    st.image("redal_logo.png", width=150)
-
-st.markdown("---")
+st.title("Prédiction des Scénarios de Construction")
 
 # Saisir les valeurs des scénarios
 st.header("Saisir les valeurs des scénarios")
@@ -101,20 +79,22 @@ for name, model in models.items():
 
 # Afficher les résultats
 st.header("Résultats des Prédictions (MT Min H.T.V.A.)")
-st.table(pd.DataFrame.from_dict(predictions_min, orient='index', columns=['Prédiction']).reset_index().rename(columns={'index': 'Modèle'}))
+for name, prediction in predictions_min.items():
+    st.write(f"{name} : {prediction:.2f}")
 
 st.header("Résultats des Prédictions (MT Max H.T.V.A.)")
-st.table(pd.DataFrame.from_dict(predictions_max, orient='index', columns=['Prédiction']).reset_index().rename(columns={'index': 'Modèle'}))
+for name, prediction in predictions_max.items():
+    st.write(f"{name} : {prediction:.2f}")
 
 # Visualisation des prédictions pour les scénarios
 st.subheader("Visualisation des Prédictions")
 fig, ax = plt.subplots(1, 2, figsize=(15, 6))
 
-ax[0].bar(predictions_min.keys(), predictions_min.values(), color=['blue', 'green', 'red', 'purple'])
+ax[0].bar(predictions_min.keys(), predictions_min.values(), color=['green', 'red', 'purple', 'orange'])
 ax[0].set_title("Prédictions MT Min H.T.V.A.")
 ax[0].set_ylabel("MT Min H.T.V.A.")
 
-ax[1].bar(predictions_max.keys(), predictions_max.values(), color=['blue', 'green', 'red', 'purple'])
+ax[1].bar(predictions_max.keys(), predictions_max.values(), color=['green', 'red', 'purple', 'orange'])
 ax[1].set_title("Prédictions MT Max H.T.V.A.")
 ax[1].set_ylabel("MT Max H.T.V.A.")
 
