@@ -30,7 +30,7 @@ def set_background(png_file):
     page_bg_img = f'''
     <style>
     .stApp {{
-        background-image: url("data:image/jpg;base64,{bin_str}");
+        background-image: url("data:image/png;base64,{bin_str}");
         background-size: cover;
     }}
     </style>
@@ -38,7 +38,7 @@ def set_background(png_file):
     st.markdown(page_bg_img, unsafe_allow_html=True)
 
 # Définir l'image d'arrière-plan
-set_background('Redal-1.jpg')
+set_background('Redal_logo.png')
 
 
 # Charger les données
