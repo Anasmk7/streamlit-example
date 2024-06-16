@@ -47,6 +47,9 @@ for model in models.values():
 
 # Interface Streamlit
 st.title("Prédiction des Scénarios de Construction")
+# Afficher le logo en haut de l'application avec une taille moyenne
+st.image("redal_logo.png", width=300)
+
 
 # Saisir les valeurs des scénarios
 st.header("Saisir les valeurs des scénarios")
