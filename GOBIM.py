@@ -18,6 +18,28 @@ def load_data(file_path):
     data['MT Min H.T.V.A.'] = pd.to_numeric(data['MT Min H.T.V.A.'], errors='coerce').fillna(0)
     data['MT Max H.T.V.A.'] = pd.to_numeric(data['MT Max H.T.V.A.'], errors='coerce').fillna(0)
     return data
+    
+# Fonction pour définir l'image d'arrière-plan
+def get_base64(bin_file):
+    with open(bin_file, 'rb') as f:
+        data = f.read()
+    return base64.b64encode(data).decode()
+
+def set_background(png_file):
+    bin_str = get_base64(png_file)
+    page_bg_img = f'''
+    <style>
+    .stApp {{
+        background-image: url("data:image/jpg;base64,{bin_str}");
+        background-size: cover;
+    }}
+    </style>
+    '''
+    st.markdown(page_bg_img, unsafe_allow_html=True)
+
+# Définir l'image d'arrière-plan
+set_background('Redal-1.jpg')
+
 
 # Charger les données
 file_path = 'BP ESTIMATIF DATA BINGA .xlsx'  # Remplacez par le chemin de votre fichier
