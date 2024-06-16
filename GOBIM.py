@@ -50,8 +50,10 @@ st.title("Prédiction des Scénarios de Construction")
 
 # Afficher le logo en haut de l'application
 st.image("redal_logo.png", use_column_width=True)
+# Afficher le logo en haut de l'application avec une taille moyenne
+st.image("redal_logo.png", width=300)
 
-st.title("Prédiction des Scénarios de Construction")
+st.title("RED-PREDICTION")
 
 
 # Saisir les valeurs des scénarios
