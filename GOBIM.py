@@ -2,8 +2,8 @@ import streamlit as st
 import pandas as pd
 from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
 from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
 import lightgbm as lgb
-from catboost import CatBoostRegressor
 import matplotlib.pyplot as plt
 
 # Fonction pour charger les données
@@ -47,14 +47,6 @@ for model in models.values():
 
 # Interface Streamlit
 st.title("Prédiction des Scénarios de Construction")
-
-# Afficher le logo en haut de l'application
-st.image("redal_logo.png", use_column_width=True)
-# Afficher le logo en haut de l'application avec une taille moyenne
-st.image("redal_logo.png", width=300)
-
-st.title("RED-PREDICTION")
-
 
 # Saisir les valeurs des scénarios
 st.header("Saisir les valeurs des scénarios")
