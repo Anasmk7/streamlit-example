@@ -38,7 +38,7 @@ models = {
     'RandomForest': RandomForestRegressor(n_estimators=200, max_depth=None, min_samples_split=2, min_samples_leaf=1, random_state=42),
     'GradientBoosting': GradientBoostingRegressor(random_state=42),
     'LightGBM': lgb.LGBMRegressor(objective='regression', num_leaves=31, learning_rate=0.05, n_estimators=100),
-    'CatBoost': CatBoostRegressor(iterations=1000, learning_rate=0.1, depth=6, loss_function='RMSE', verbose=0)
+    'LinearRegression': LinearRegression()
 }
 
 # Entraîner les modèles pour les cibles minimales
