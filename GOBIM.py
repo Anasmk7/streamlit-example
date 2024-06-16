@@ -2,10 +2,9 @@ import streamlit as st
 import pandas as pd
 from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
 from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LinearRegression
 import lightgbm as lgb
+from catboost import CatBoostRegressor
 import matplotlib.pyplot as plt
-import base64
 
 # Fonction pour charger les données
 @st.cache
@@ -19,27 +18,6 @@ def load_data(file_path):
     data['MT Min H.T.V.A.'] = pd.to_numeric(data['MT Min H.T.V.A.'], errors='coerce').fillna(0)
     data['MT Max H.T.V.A.'] = pd.to_numeric(data['MT Max H.T.V.A.'], errors='coerce').fillna(0)
     return data
-
-# Fonction pour définir l'image d'arrière-plan
-def get_base64(bin_file):
-    with open(bin_file, 'rb') as f:
-        data = f.read()
-    return base64.b64encode(data).decode()
-
-def set_background(png_file):
-    bin_str = get_base64(png_file)
-    page_bg_img = f'''
-    <style>
-    .stApp {{
-        background-image: url("data:image/jpg;base64,{bin_str}");
-        background-size: cover;
-    }}
-    </style>
-    '''
-    st.markdown(page_bg_img, unsafe_allow_html=True)
-
-# Définir l'image d'arrière-plan
-set_background('Redal-1.jpg')
 
 # Charger les données
 file_path = 'BP ESTIMATIF DATA BINGA .xlsx'  # Remplacez par le chemin de votre fichier
@@ -60,7 +38,7 @@ models = {
     'RandomForest': RandomForestRegressor(n_estimators=200, max_depth=None, min_samples_split=2, min_samples_leaf=1, random_state=42),
     'GradientBoosting': GradientBoostingRegressor(random_state=42),
     'LightGBM': lgb.LGBMRegressor(objective='regression', num_leaves=31, learning_rate=0.05, n_estimators=100),
-    'LinearRegression': LinearRegression()
+    'CatBoost': CatBoostRegressor(iterations=1000, learning_rate=0.1, depth=6, loss_function='RMSE', verbose=0)
 }
 
 # Entraîner les modèles pour les cibles minimales
@@ -70,16 +48,11 @@ for model in models.values():
 # Interface Streamlit
 st.title("Prédiction des Scénarios de Construction")
 
-# Afficher les logos dans l'entête
-col1, col2, col3 = st.columns([1, 1, 1])
-with col1:
-    st.image("veolia_logo.png", use_column_width=True)
-with col2:
-    st.title("GOBIM")
-with col3:
-    st.image("redal_logo.png", use_column_width=True)
+# Afficher le logo en haut de l'application
+st.image("redal_logo.png", use_column_width=True)
 
-st.markdown("---")
+st.title("Prédiction des Scénarios de Construction")
+
 
 # Saisir les valeurs des scénarios
 st.header("Saisir les valeurs des scénarios")
